@@ -10,15 +10,16 @@ def database_credential_getter():
         USERNAME = database_credentials[1]
         PASSWORD = database_credentials[2]
         DATABASE = database_credentials[3]
-        return HOST, USERNAME, PASSWORD, DATABASE
+        TABLE = database_credentials[4]
+        return HOST, USERNAME, PASSWORD, DATABASE, TABLE
 
 
 # creates the query and connects to the mysql database before inserting parameters as data into the table  
-def data_entry_to_MySQL(inside_temp, outside_temp, season, current_date, current_time):
+def data_entry_to_MySQL(parameters: dict):
     
-    HOST, USERNAME, PASSWORD, DATABASE = database_credential_getter()
-    query = f"INSERT INTO temperatures(inside_temperature, outside_temperature, season, date, time) VALUES (%s, %s, %s, %s, %s)"
-    args = (inside_temp, outside_temp, season, current_date, current_time)
+    HOST, USERNAME, PASSWORD, DATABASE, TABLE = database_credential_getter()
+    query = f"INSERT INTO {TABLE}({', '.join(parameters.values())}) VALUES ({('%s, '*len(parameters)).rstrip(', ')})"
+    args = (key for key in parameters)
     
     try:
         with connect(
