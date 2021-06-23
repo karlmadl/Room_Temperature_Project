@@ -1,9 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 
-PATH = "CHROMEDRIVER.EXE PATH"
-WEBSITE = "WEATHER STATION REPORTING WEBSITE"
-XPATH = "XPATH OF HTML ELEMENT INCLUDING TEMPERATURE TEXT"
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+WEBSITE = "https://www.wunderground.com/weather/us/nj/howell-township/KNJHOWEL37"
+XPATH = "/html/body/app-root/app-today/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[3]/div[1]/div/div[1]/div[1]/lib-city-current-conditions/div/div[2]/div/div/div[2]/lib-display-unit/span/span[1]"
 
 
 # webscrapes to retrieve specified weather station current temperature measurement

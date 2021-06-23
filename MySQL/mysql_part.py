@@ -4,7 +4,7 @@ from mysql.connector import connect, Error
 
 # looks to local file to grab credentials to connect to SQL server, file should be formatted with each piece of info on a newline, in order as seen below
 def database_credential_getter():
-    with open(r'LOCAL FILE PATH', 'r') as f:
+    with open(r"C:/Users/kimba/OneDrive/Desktop/room_temperature_database_credentials.txt", 'r') as f:
         database_credentials = [line.rstrip('\n') for line in f]
         HOST = database_credentials[0]
         USERNAME = database_credentials[1]
