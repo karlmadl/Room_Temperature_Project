@@ -10,10 +10,10 @@ def insert_into_MySQL(data: dict):
     
     try:
         with connect(
-            host= CREDS['host'],
-            user= CREDS['user'],
-            password= CREDS['password'],
-            database= CREDS['database']
+            host = CREDS['host'],
+            user = CREDS['user'],
+            password = CREDS['password'],
+            database = CREDS['database']
         ) as connection:
 
             cursor = connection.cursor()
