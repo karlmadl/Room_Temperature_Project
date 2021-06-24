@@ -17,8 +17,8 @@ def database_credential_getter():
 def data_entry_to_MySQL(parameters: dict):
     
     HOST, USERNAME, PASSWORD, DATABASE, TABLE = database_credential_getter()
-    query = f"INSERT INTO {TABLE}({', '.join(parameters.values())}) VALUES ({('%s, '*len(parameters)).rstrip(', ')})"
-    args = (key for key in parameters)
+    query = f"INSERT INTO {TABLE} ({', '.join(parameters)}) VALUES ({('%s, '*len(parameters)).rstrip(', ')})"
+    args = [*parameters.values()]
     
     try:
         with connect(

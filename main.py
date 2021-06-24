@@ -6,11 +6,11 @@ from MySQL.mysql_part import data_entry_to_MySQL
 
 
 parameters = {
-    "inside_temperature": temperature_reader(),
-    "outside_temperature": weather_temperature(),
+    "time": datetime.now().strftime("%H:%M"),
+    "date": date.today(),
     "season": get_season(),
-    "current_date": date.today(),
-    "current_time": datetime.now().strftime("%H:%M")
+    "inside_temperature": temperature_reader(),
+    "outside_temperature": weather_temperature()
 }
 
 data_entry_to_MySQL(parameters)

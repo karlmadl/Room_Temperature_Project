@@ -4,7 +4,10 @@ from django.shortcuts import render
 
 def index(request):
     data = [
-        
+        {'reading': 72, 'location': 'inside', 'slug': 'most-recent-inside-temp'},
+        {'reading': 81, 'location': 'outside', 'slug': 'most-recent-outside-temp'},
     ]
-    return render(request, 'data/index.html')
+    return render(request, 'data/index.html', {
+        'temperatures': data
+    })
 
