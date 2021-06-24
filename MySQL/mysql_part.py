@@ -13,12 +13,12 @@ def database_credential_getter():
         return HOST, USERNAME, PASSWORD, DATABASE, TABLE
 
 
-# creates the query and connects to the mysql database before inserting parameters as data into the table  
-def data_entry_to_MySQL(parameters: dict):
+# creates the query and connects to the mysql database before inserting data dictionary as data into the table  
+def insert_into_MySQL(data: dict):
     
     HOST, USERNAME, PASSWORD, DATABASE, TABLE = database_credential_getter()
-    query = f"INSERT INTO {TABLE} ({', '.join(parameters)}) VALUES ({('%s, '*len(parameters)).rstrip(', ')})"
-    args = [*parameters.values()]
+    query = f"INSERT INTO {TABLE} ({', '.join(data)}) VALUES ({('%s, '*len(data)).rstrip(', ')})"
+    args = [*data.values()]
     
     try:
         with connect(
