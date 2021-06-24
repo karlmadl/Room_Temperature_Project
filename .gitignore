@@ -1,1 +1,7 @@
-credentials_file/credentials_location.py
+user_info/arduino_location.py
+user_info/credentials_location.py
+user_info/webdriver_location.py
+user_info/__pycache__
+Arduino_Reading/__pycache__
+MySQL/__pycache__
+Season/__pycache__

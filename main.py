@@ -9,7 +9,7 @@ data = {
     "time": datetime.now().strftime("%H:%M"),
     "date": date.today(),
     "season": get_season(),
-    "inside_temperature": temperature_reader(),
+    "inside_temperature": temperature_reader(data_points=10, seconds=10),
     "outside_temperature": weather_temperature()
 }
 
