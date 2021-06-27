@@ -10,6 +10,8 @@ with open(log, 'a') as log:
     log.write("\n" + "----------------------------------------------------" + "\n\n")
     log.write(str(date.today()) + " | " + str(datetime.now().strftime("%H:%M")) + " | " + "Operation ran ")
 
+
+
     try: 
         data = {
             "time": datetime.now().strftime("%H:%M"),
@@ -20,6 +22,8 @@ with open(log, 'a') as log:
         }
 
         insert_into_MySQL(data)
+
+
 
         log.write("successfully" + "\n")
 
