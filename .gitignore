@@ -5,3 +5,5 @@ user_info/__pycache__
 Arduino_Reading/__pycache__
 MySQL/__pycache__
 Season/__pycache__
+log.txt
+user_info/log_location.py
