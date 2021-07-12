@@ -1,5 +1,5 @@
 """
-ASGI config for room_temp_site project.
+ASGI config for room_temperature_site project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'room_temp_site.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'room_temperature_site.settings')
 
 application = get_asgi_application()
