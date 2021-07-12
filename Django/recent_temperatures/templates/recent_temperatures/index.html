@@ -10,9 +10,10 @@
 </head>
 <body>
     {% for point in data %}
-        <p>{{ point.date }}</p>
-        <p>{{ point.time }}</p>
-        <p>{{ point.inside_temperature }} degrees F</p>
+        <p>|  {{ point.date }}</p>
+        <p>|  {{ point.time }}</p>
+        <p>|  inside: {{ point.inside_temperature }} degrees F</p>
+        <p>|  outside: {{ point.outside_temperature }} degrees F</p>
         <br>
     {% endfor %}
 </body>
