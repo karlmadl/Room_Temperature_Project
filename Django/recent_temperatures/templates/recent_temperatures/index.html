@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'recent_temperatures/styles/base.css' %}">  
 </head>
 <body>
+    <h1><a href="/recent-temperatures/data">Most Recent Temperature</a></h1>
     {% for point in data %}
         <p>|  {{ point.date }}</p>
         <p>|  {{ point.time }}</p>
