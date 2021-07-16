@@ -7,3 +7,6 @@ database/MySQL/__pycache__
 database/Season/__pycache__
 database/log.txt
 database/user_info/log_location.py
+django/recent_temperatures/__pycache__
+django/recent_temperatures/migrations/__pycache__
+django/room_temperature_site/__pycache__
