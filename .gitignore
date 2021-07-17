@@ -10,3 +10,4 @@ database/user_info/log_location.py
 django/recent_temperatures/__pycache__
 django/recent_temperatures/migrations/__pycache__
 django/room_temperature_site/__pycache__
+database/Weather_Data/__pycache__
