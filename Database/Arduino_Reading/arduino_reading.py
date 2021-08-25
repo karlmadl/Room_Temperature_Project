@@ -10,9 +10,9 @@ def temperature_reader(data_points, seconds):                       # params ref
     ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )                 # points to the port arduino is connected to
     PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)     # initializes pyfirmata
     PYFIRMATA_ITERATOR.start()
-    analog_input = ARDUINO_BOARD.get_pin( AI['pin'] )               # points to which analog pin should be being read
+    analog_input = ARDUINO_BOARD.get_pin( AI['pin'] )               # points to which analog pin voltages should be read from
 
-    R1 = AI['resistor resistence']                                  # resistence of resistor in series with thermistor
+    R1 = AI['resistor_resistence']                                  # resistence of resistor in series with thermistor
     C1, C2, C3 = AI['coeff_1'], AI['coeff_2'], AI['coeff_3']        # manufacturer LUT constants / Steinhart-Hart constants for particular thermistor
     readings = []
     

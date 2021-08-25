@@ -7,17 +7,18 @@ from user_info.webdriver_location import driver_info
 def weather_temperature():
     driver: WebDriver = webdriver.Chrome(driver_info['driver_path'])
 
+    
     # silences almost all of the console logging done by selenium
     options = webdriver.ChromeOptions()
     options.headless = True
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     
+    
+    
     driver.get(driver_info['site'])
-
-    temperature_html = driver.find_element_by_xpath(driver_info['xpath'])
-
+    temperature_html = driver.find_element_by_xpath(driver_info['temp_xpath'])
     temperature = int(temperature_html.text)
 
     driver.quit()
 
-    return temperature
+    return temperature  
