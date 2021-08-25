@@ -33,6 +33,6 @@ def temperature_reader(data_points, seconds):                       # params ref
         
         time.sleep(seconds / data_points)
     
-    average_temperature = int(sum(readings) / 10)
+    average_temperature = int(sum(readings) / len(readings))
     
     return average_temperature

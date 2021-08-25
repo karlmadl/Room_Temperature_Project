@@ -1,8 +1,8 @@
 from datetime import date, datetime
-from Season.season_getter import get_season
-from Arduino_Reading.arduino_reading import temperature_reader
-from Weather_Data.weather_data import weather_temperature
-from MySQL.mysql_part import insert_into_MySQL
+from season_getter import get_season
+from arduino_reading import temperature_reader
+from weather_data import weather_temperature
+from mysql_part import insert_into_MySQL
 from user_info.log_location import log
 
 

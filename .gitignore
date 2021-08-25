@@ -2,9 +2,6 @@ database/user_info/arduino_location.py
 database/user_info/credentials_location.py
 database/user_info/webdriver_location.py
 database/user_info/__pycache__
-database/Arduino_Reading/__pycache__
-database/MySQL/__pycache__
-database/Season/__pycache__
 database/log.txt
 database/user_info/log_location.py
-database/Weather_Data/__pycache__
+database/__pycache__
