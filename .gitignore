@@ -5,6 +5,6 @@ Database/user_info/__pycache__
 Database/log.txt
 Database/user_info/log_location.py
 Database/__pycache__
-Analysis/Cleaning/database_credentials.py
-Analysis/Cleaning/__pycache__
+03_Process/Cleaning/database_credentials.py
+03_Process/Cleaning/__pycache__
 Database/__init__.py
