@@ -1,7 +1,10 @@
-database/user_info/arduino_location.py
-database/user_info/credentials_location.py
-database/user_info/webdriver_location.py
-database/user_info/__pycache__
-database/log.txt
-database/user_info/log_location.py
-database/__pycache__
+Database/user_info/arduino_location.py
+Database/user_info/credentials_location.py
+Database/user_info/webdriver_location.py
+Database/user_info/__pycache__
+Database/log.txt
+Database/user_info/log_location.py
+Database/__pycache__
+Analysis/Cleaning/database_credentials.py
+Analysis/Cleaning/__pycache__
+Database/__init__.py
