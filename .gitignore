@@ -1,10 +1,7 @@
-Database/user_info/arduino_location.py
-Database/user_info/credentials_location.py
-Database/user_info/webdriver_location.py
-Database/user_info/__pycache__
-Database/log.txt
-Database/user_info/log_location.py
-Database/__pycache__
-03_Process/Cleaning/database_credentials.py
+02_Prepare/Data-Collection_and_Upload/log.txt
+02_Prepare/Data-Collection_and_Upload/__pycache__
+02_Prepare/Data-Collection_and_Upload/__init__.py
+02_Prepare/Data-Collection_and_Upload/user_info/user_info.py
+02_Prepare/Data-Collection_and_Upload/user_info/__pycache__
+02_Prepare/Data-Collection_and_Upload/user_info/__init__.py
 03_Process/Cleaning/__pycache__
-Database/__init__.py

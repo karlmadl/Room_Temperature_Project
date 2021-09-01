@@ -3,7 +3,7 @@ from season_getter import get_season
 from arduino_reading import temperature_reader
 from weather_data import weather_temperature
 from mysql_part import insert_into_MySQL
-from user_info.log_location import log
+from user_info.user_info import log
 
 
 with open(log, 'a') as log:

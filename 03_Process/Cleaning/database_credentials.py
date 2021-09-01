@@ -1,4 +1,4 @@
-My_SQL_credentials = {
+MySQL_credentials = {
     "host": "localhost",
     "user": "karl",
     "password": "123456",

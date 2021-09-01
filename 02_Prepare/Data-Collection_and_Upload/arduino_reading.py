@@ -2,7 +2,7 @@ import time
 from typing import Iterator
 import pyfirmata
 import math
-from user_info.arduino_location import arduino_info as AI
+from user_info.user_info import arduino_info as AI
 
 
 def temperature_reader(data_points, seconds):                       # params refer to number of desired data points and how long of a duration they're to be taken over

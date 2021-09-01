@@ -1,4 +1,4 @@
-from user_info.credentials_location import My_SQL_credentials as CREDS   # imports dictionary of MySQL credentials and info (database, table)
+from user_info.user_info import My_SQL_credentials as CREDS   # imports dictionary of MySQL credentials and info (database, table)
 from mysql.connector import connect, Error
 
 

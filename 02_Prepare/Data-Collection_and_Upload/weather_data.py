@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-from user_info.webdriver_location import driver_info
+from user_info.user_info import driver_info
 
 
 # webscrapes to retrieve specified weather station current temperature measurement
