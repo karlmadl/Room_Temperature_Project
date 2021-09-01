@@ -1,0 +1,1 @@
+log = r"C:/Users/kimba/VSCode Projects/Room_Temperature_Project/database/log.txt"
