@@ -6,3 +6,6 @@
 04_Analyze/Analysis/database_credentials_copy.py
 04_Analyze/Analysis/__pycache__
 04_Analyze/Analysis/__init__.py
+04_Analyze/Analysis/__pycache__
+04_Analyze/Analysis/scratchpad.ipynb
+03_Process/Cleaning/database_credentials.py
