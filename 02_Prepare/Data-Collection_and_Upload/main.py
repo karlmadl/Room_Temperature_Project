@@ -1,9 +1,6 @@
 from datetime import date, datetime
-from season_getter import get_season
-from arduino_reading import temperature_reader
-from weather_data import weather_temperature
-from mysql_part import insert_into_MySQL
-from user_info.user_info import log
+from user_info import log
+import data_collection_functions as dcf
 
 
 with open(log, 'a') as log:
@@ -16,12 +13,12 @@ with open(log, 'a') as log:
         data = {
             "time": datetime.now().strftime("%H:%M"),
             "date": date.today(),
-            "season": get_season(),
-            "inside_temperature": temperature_reader(data_points=10, seconds=10),
-            "outside_temperature": weather_temperature()
+            "season": dcf.get_season(),
+            "inside_temperature": dcf.temperature_reader(data_points=10, seconds=10),
+            "outside_temperature": dcf.weather_temperature()
         }
 
-        insert_into_MySQL(data)
+        dcf.insert_into_MySQL(data)
 
 
 
