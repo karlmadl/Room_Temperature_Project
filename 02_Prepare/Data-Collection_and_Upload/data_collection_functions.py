@@ -28,7 +28,7 @@ import math
 from user_info import arduino_info as AI
 
 
-def temperature_reader(data_points, seconds):                       # params refer to number of desired data points and how long of a duration they're to be taken over
+def temperature_reader(data_points=10, seconds=10):                 # params refer to number of desired data points and how long of a duration they're to be taken over
 
     ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )                 # points to the port arduino is connected to
     PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)     # initializes pyfirmata

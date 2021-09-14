@@ -14,7 +14,7 @@ with open(log, 'a') as log:
             "time": datetime.now().strftime("%H:%M"),
             "date": date.today(),
             "season": dcf.get_season(),
-            "inside_temperature": dcf.temperature_reader(data_points=10, seconds=10),
+            "inside_temperature": dcf.temperature_reader(),
             "outside_temperature": dcf.weather_temperature()
         }
 
