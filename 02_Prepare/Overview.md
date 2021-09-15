@@ -40,7 +40,7 @@ Date: 01 September 2021
     ### *weather_temperature()*
     * This function is a very simple webscraper that goes to a specified weather website, uses a specified XPATH found in the HTML of the website that points to the current outdoor temperature posted and returns the text value of that HTML element.
 
-    * In this case, [wunderground.com](wundergound.com) was used as the website and the closest weather station to the location of the building where the indoor temperatures were being measured was the one chosen for outdoor temperatures. This station is less than a half-mile away so we can be confident that the general temperature reportings were representative of the temperature outside the working building.
+    * In this case, [wunderground.com](https://www.wunderground.com/) was used as the website and the closest weather station to the location of the building where the indoor temperatures were being measured was the one chosen for outdoor temperatures. This station is less than a half-mile away so we can be confident that the general temperature reportings were representative of the temperature outside the working building.
 
     ### *insert_into_MySQL()*
     * This function has nothing to do with data collection, but rather takes the **data** dictionary that was created and builds an "INSERT INTO, VALUES" SQL statement before connecting to the MySQL database using *mysql.connector* package.
