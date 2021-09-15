@@ -52,4 +52,17 @@ Date: 01 September 2021
     * Finally, the cursor executes the the query using *execute()* with arguments **query** and **args**. Any exceptions that are thrown are printed to the console and logged in **log**, though this is handled by **main&#46;py**.   
 
 # Data Storage
-The data will be stored in a MySQL database. There's particular advantage to using MySQL in this case over a lighter weight option such as SQLite, it was simply chosen because I wanted to work with it.
+* The data will be stored in a MySQL database. There's no particular advantage to using MySQL in this case over a lighter weight option such as SQLite, it was chosen because I wanted to work with it. The database will also assign an integer **id** to each observation entered into it, autoincremented. The other column data types are as follows:
+    * **inside_temperature**: int
+    * **outside_temperature**: int
+    * **season**: VARCHAR(50)
+    * **date**: date
+    * **time**: time
+
+* The information in **user_info.py** is stored as dictionaries with each dictionary being used for one at most one of the above functions, the skeleton of which is provided in the **02_Prepare/Data-Collection_and_Upload/** directory. *
+
+* Every run of the script will be recorded into the **log.txt** file in the **02_Prepare/Data-Collection_and_Upload/** directory, as well as whether or not the script ran to completion or was terminated early due to some encountered error, including the thrown error message.
+
+* The cleaned data will be stored in **cleaned_data.csv** in the **03_Process/** directory. Also in this directory will be a PDF version of the data cleaning process and a .txt file with a link to preview the HTML version of the same report (the HTML file is stored in the subdirectory **/Cleaning/**).
+
+* Lastly of note, copies of all reports/presentations will be kept in a separate folder in the main directory of the project in **All_Reports/** for ease of acess for viewers.
