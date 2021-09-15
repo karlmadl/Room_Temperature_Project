@@ -15,8 +15,6 @@ My_SQL_credentials = {
     "table": ""
 }
 
-log = "02_Prepare/Data-Collection_and_Upload/log.txt"
-
 driver_info = {
     "driver_path": "",              # path to local webdriver to do the webscraping
     "site": "",                     # site address to get outside temperature from
