@@ -1,6 +1,6 @@
 from datetime import date, datetime
-from user_info import log
 import data_collection_functions as dcf
+log = "02_Prepare/Data-Collection_and_Upload/log.txt"
 
 
 with open(log, 'a') as log:
