@@ -22,6 +22,3 @@ driver_info = {
     "site": "",                     # site address to get outside temperature from
     "temp_xpath": ""                # HTML xpath of element containing current temperature
 }
-
-with open(log) as f:
-    print(f.read(20))
