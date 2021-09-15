@@ -1,7 +1,7 @@
 ---
-title: Data Collection and Storage Outline
-author: Karl Madl
-date: 01 September 2021
+Title: Data Collection and Storage Outline
+Author: Karl Madl
+Date: 01 September 2021
 ---
 
 
