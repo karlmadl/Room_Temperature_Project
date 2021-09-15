@@ -15,10 +15,13 @@ My_SQL_credentials = {
     "table": ""
 }
 
-log = r""
+log = "02_Prepare/Data-Collection_and_Upload/log.txt"
 
 driver_info = {
     "driver_path": "",              # path to local webdriver to do the webscraping
     "site": "",                     # site address to get outside temperature from
     "temp_xpath": ""                # HTML xpath of element containing current temperature
 }
+
+with open(log) as f:
+    print(f.read(20))
