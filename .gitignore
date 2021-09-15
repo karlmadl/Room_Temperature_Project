@@ -1,7 +1,6 @@
 02_Prepare/Data-Collection_and_Upload/log.txt
 02_Prepare/Data-Collection_and_Upload/__pycache__
 02_Prepare/Data-Collection_and_Upload/__init__.py
-02_Prepare/Data-Collection_and_Upload/user_info.py
 03_Process/Cleaning/__pycache__
 04_Analyze/Analysis/database_credentials_copy.py
 04_Analyze/Analysis/__pycache__
