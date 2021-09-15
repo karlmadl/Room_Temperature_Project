@@ -1,1 +1,0 @@
-# How will the data be collected, stored, and managed.
