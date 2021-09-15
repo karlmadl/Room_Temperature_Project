@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-Y = 2000 # dummy leap year to allow input X-02-29 (leap day)
+Y = 2000 # Dummy leap year to allow input X-02-29 (leap day)
 seasons = [('winter', (date(Y,  1,  1),  date(Y,  3, 20))),
            ('spring', (date(Y,  3, 21),  date(Y,  6, 20))),
            ('summer', (date(Y,  6, 21),  date(Y,  9, 22))),
@@ -8,7 +8,7 @@ seasons = [('winter', (date(Y,  1,  1),  date(Y,  3, 20))),
            ('winter', (date(Y, 12, 21),  date(Y, 12, 31)))]
 
 
-# returns the season based on current date, based on northern hemisphere
+# Returns the season based on current date, based on northern hemisphere
 def get_season():
     now = date.today()
     if isinstance(now, datetime):
@@ -28,27 +28,34 @@ import math
 from user_info import arduino_info as AI
 
 
-def temperature_reader(data_points=10, seconds=10):                 # params refer to number of desired data points and how long of a duration they're to be taken over
+def temperature_reader(data_points=10, seconds=10):   # Params refer to number of desired data points and how long of a duration they're to be taken over
+    
+    # Connects to Arduino and initializes pyfirmata
+    ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )
+    PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)
+    PYFIRMATA_ITERATOR.start()  
+    analog_input = ARDUINO_BOARD.get_pin( AI['pin'] )   # Points to which analog pin voltages should be read from
+    
 
-    ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )                 # points to the port arduino is connected to
-    PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)     # initializes pyfirmata
-    PYFIRMATA_ITERATOR.start()
-    analog_input = ARDUINO_BOARD.get_pin( AI['pin'] )               # points to which analog pin voltages should be read from
-
-    R1 = AI['resistor_resistence']                                  # resistence of resistor in series with thermistor
-    C1, C2, C3 = AI['coeff_1'], AI['coeff_2'], AI['coeff_3']        # manufacturer LUT constants / Steinhart-Hart constants for particular thermistor
+    # Necessary constants for calculation; resistor resistence and Steinhart-Hart coefficients
+    RESISTOR = AI['resistor_resistence']
+    C1, C2, C3 = AI['coeff_1'], AI['coeff_2'], AI['coeff_3']
     readings = []
     
     while len(readings) < data_points:
         voltage_reading = analog_input.read()
         
-        if type(voltage_reading) == float:                              # if statement required since first few readings will be reported as NoneType
-            voltage_reading *= 1023                                     # converts pyfirmata analog reading back to arduino analog (0-1 to 0-1023)
+        # If statement to account for first few values read as NoneType
+        if type(voltage_reading) == float:
+
+            voltage_reading *= 1023   # Converts pyfirmata analog reading back to arduino analog (0-1 to 0-1023)
             
-            R2 = R1 * (1023.0 / voltage_reading - 1.0)                  # solves for thermistor resistence
-            logR2 = math.log(R2)
+            # Solves for thermistor resistence then takes then log which is needed for Steinhart-Hart
+            thermistor_resistence = RESISTOR * (1023.0 / voltage_reading - 1.0)
+            log_thermistor_resistence = math.log(thermistor_resistence)
             
-            T_kelvin = (1.0 / (C1 + C2*logR2 + C3*logR2*logR2*logR2))   #solves steinhart-hart eqn and converts kelvin to celsius then to fahrenheit
+            # Steinhart-Hart and conversion from Kelvin to Fahrenheit
+            T_kelvin = (1.0 / (C1 + C2*log_thermistor_resistence + C3*(log_thermistor_resistence ** 3)))
             T_celsius = T_kelvin - 273.15
             T_fahrenheit = (T_celsius * 9.0)/ 5.0 + 32.0
             
@@ -99,7 +106,7 @@ from mysql.connector import connect, Error
 # creates the query and connects to the mysql database before inserting data dictionary as data into the table  
 def insert_into_MySQL(data: dict):
     
-    query = f"INSERT INTO {CREDS['table']} ({', '.join(data)}) VALUES ({('%s, '*len(data)).rstrip(', ')})"
+    query = f"INSERT INTO {CREDS['table']} ({', '.join(data)}) VALUES ({('%s, '*len(data)).rstrip(', ')})"   # The '%s's are placeholders for args list
     args = [*data.values()]
     
     try:
