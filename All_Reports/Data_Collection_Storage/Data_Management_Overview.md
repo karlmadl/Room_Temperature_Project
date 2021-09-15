@@ -29,7 +29,7 @@ Date: 01 September 2021
     * This function's purpose is to connect to an Arduino that drives a thermistor circuit, convert this reading, and use it to complete a calculation to give a very good approximation of the temperature of the thermistor (which is, ideally, at equlibrium with the air around it, giving the temperature of the air inside the room).
 
         > The circuit is a simple thermistor-resisitor series cicuit.
-        >   #### ![alt text](circuit.png "Thermistor-Resistor Circuit")
+        >   #### ![alt text](../02_Prepare/circuit.png "Thermistor-Resistor Circuit")
 
     * To keep all the main logic of the function in Python, Pyfirmata was used to connect to the Arduino with the Pyfirmata script uploaded to it. However, the code was originally developed in the Arduino language which reads voltages from 0 to 1023 whereas Pyfirmata normalizes these readings from 0.0 to 1.0. This is why **voltage_reading** gets scaled by 1023.
 
