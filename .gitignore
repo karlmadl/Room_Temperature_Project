@@ -5,3 +5,4 @@
 04_Analyze/Analysis/__init__.py
 04_Analyze/Analysis/__pycache__
 03_Process/Cleaning/database_credentials.py
+.vscode/settings.json
