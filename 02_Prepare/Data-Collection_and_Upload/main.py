@@ -1,26 +1,21 @@
 from datetime import date, datetime
-import data_collection_functions as dcf
-log = "02_Prepare/Data-Collection_and_Upload/log.txt"
+
+from data_object import Data
+from user_info import MySQL_credentials
 
 
-with open(log, 'a') as log:
-    log.write("\n" + "----------------------------------------------------" + "\n\n")
-    log.write(str(date.today()) + " | " + str(datetime.now().strftime("%H:%M")) + " | " + "Operation ran ")
+Log = "02_Prepare/Data-Collection_and_Upload/log.txt"
 
-
+with open(Log, 'a') as log:
+    log.write("\n" + "----------------------------------------------------"
+              + "\n\n")
+    log.write(str(date.today()) + " | " + str(datetime.now().strftime("%H:%M"))
+              + " | " + "Operation ran ")
 
     try: 
-        data = {
-            "time": datetime.now().strftime("%H:%M"),
-            "date": date.today(),
-            "season": dcf.get_season(),
-            "inside_temperature": dcf.temperature_reader(),
-            "outside_temperature": dcf.weather_temperature()
-        }
+        observation = Data()
 
-        dcf.insert_into_MySQL(data)
-
-
+        observation.insert_into_MySQL(MySQL_credentials)
 
         log.write("successfully" + "\n")
 

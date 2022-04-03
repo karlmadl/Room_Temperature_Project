@@ -1,12 +1,22 @@
+import time
+import math
+import requests
+from typing import Union
 from datetime import date, datetime
 
-Y = 2000 # Dummy leap year to allow input X-02-29 (leap day)
+from bs4 import BeautifulSoup
+import pyfirmata
+
+from user_info import arduino_info as AI
+
+
+
+Y = 2000  # Dummy leap year to allow input X-02-29 (leap day)
 seasons = [('winter', (date(Y,  1,  1),  date(Y,  3, 20))),
            ('spring', (date(Y,  3, 21),  date(Y,  6, 20))),
            ('summer', (date(Y,  6, 21),  date(Y,  9, 22))),
            ('autumn', (date(Y,  9, 23),  date(Y, 12, 20))),
            ('winter', (date(Y, 12, 21),  date(Y, 12, 31)))]
-
 
 # Returns the season based on current date, based on northern hemisphere
 def get_season():
@@ -18,18 +28,29 @@ def get_season():
                 if start <= now <= end)
 
 
-
-
-
-import time
-from typing import Iterator
-import pyfirmata
-import math
-from user_info import arduino_info as AI
-
-
-def temperature_reader(data_points=10, seconds=10):   # Params refer to number of desired data points and how long of a duration they're to be taken over
+def record_inside_temperature(data_points: int = 10, seconds: Union[int, float] = 10) -> int:
+    """Return temperature based on Arduino readings from thermistor circuit.
     
+    Temperature reported is in Fahrenheit.  Connect to Arduino using pyfirmata 
+    and read voltages across thermistor in thermistor-resistor circuit.  
+    Perform conversions and use Steinhart-Hart equation to determine the
+    temperature at the head of the thermistor.
+
+    Parameters
+    ----------
+    data_points : int
+        Specify the number of readings to gather and average over; default 10
+    seconds : int or float
+        Across how many seconds the data points should be evenly spaced across;
+        default 10
+
+    Example
+    ----------
+    The following records 5 datapoints across 10 seconds (2 seconds between
+    recordings) and then averages them, truncating all decimal places.
+    >>> record_inside_temperature(data_points=5, seconds=10)
+    70
+    """
     # Connects to Arduino and initializes pyfirmata
     ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )
     PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)
@@ -68,59 +89,38 @@ def temperature_reader(data_points=10, seconds=10):   # Params refer to number o
     return average_temperature
 
 
-
-
-
-from selenium import webdriver
-from selenium.webdriver.chrome.webdriver import WebDriver
-from user_info import driver_info
-
-
-# webscrapes to retrieve specified weather station current temperature measurement
-def weather_temperature():
-    driver: WebDriver = webdriver.Chrome(driver_info['driver_path'])
-
+def get_outside_temperature(site_info: dict) -> str:
+    """Return current temperature as reported by specified weather station.
     
-    # silences almost all of the console logging done by selenium
-    options = webdriver.ChromeOptions()
-    options.headless = True
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    
-    
-    
-    driver.get(driver_info['site'])
-    temperature_html = driver.find_element_by_xpath(driver_info['temp_xpath'])
-    temperature = int(temperature_html.text)
+    Parameters
+    ----------
+    site_info : dict
+        Dict containing information about what site to visit and which element 
+        contains temperature reading as text.
+    ```
+    example_nyc = {
+        "url": "https://www.weather.gov/okx/"
+        "HTML element type": "span"
+        "HTML class name": "myfcst-tempf"
+    }
+    ```
 
-    driver.quit()
-
-    return temperature  
-
-
-
-
-
-from user_info import My_SQL_credentials as CREDS   # imports dictionary of MySQL credentials and info (database, table)
-from mysql.connector import connect, Error
-
-# creates the query and connects to the mysql database before inserting data dictionary as data into the table  
-def insert_into_MySQL(data: dict):
-    
-    query = f"INSERT INTO {CREDS['table']} ({', '.join(data)}) VALUES ({('%s, '*len(data)).rstrip(', ')})"   # The '%s's are placeholders for args list
-    args = [*data.values()]
-    
+    Example
+    ----------
+    >>> get_outside_temperature(site_info=example_nyc)
+    "46°F"
+    """
     try:
-        with connect(
-            host = CREDS['host'],
-            user = CREDS['user'],
-            password = CREDS['password'],
-            database = CREDS['database']
-        ) as connection:
+        page = requests.get(site_info["url"])
+    except:
+        raise Exception("Bad URL")
 
-            cursor = connection.cursor()
-            cursor.execute(query, args)
-            
-            connection.commit()
-
-    except Error as e:
-        print(e)
+    soup = BeautifulSoup(page.text, "lxml")
+    temperature_element = soup.find(site_info["HTML element type"],
+                                    {"class": site_info['HTML class name']}
+                                   )
+    temperature = temperature_element.text
+    if temperature is not None:
+        return temperature
+    else:
+        raise Exception("Couldn't find element on page")
