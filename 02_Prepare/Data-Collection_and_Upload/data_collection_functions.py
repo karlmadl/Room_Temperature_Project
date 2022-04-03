@@ -1,10 +1,13 @@
 import time
 import math
+from numpy import iterable
 import requests
-from typing import Union
+from typing import Iterable, Union
 from datetime import date, datetime
 
+import numpy as np
 from bs4 import BeautifulSoup
+from pandas import DataFrame
 import pyfirmata
 
 from user_info import arduino_info as AI
@@ -29,7 +32,7 @@ def get_season():
 
 
 def record_inside_temperature(data_points: int = 10, 
-                                  seconds: Union[int, float] = 10) -> int:
+                              seconds: Union[int, float] = 10) -> int:
     """Return temperature based on Arduino readings from thermistor
     circuit.
     
@@ -55,9 +58,14 @@ def record_inside_temperature(data_points: int = 10,
     >>> record_inside_temperature(data_points=5, seconds=10)
     70
     """
-    def connect_to_arduino(port, pin):
-        """Connect to Arduino board at specified port and watches
-        specified pin.  
+
+
+    def connect_to_arduino(port: str, pin: str):
+        """Return pyfirmata connection object to a pin on Arduino board.
+        
+        Connect to Arduino board at specified port and watches specified
+        pin.  The voltage value at this pin can be read using the .read
+        method.
 
         Parameters
         ----------
@@ -66,42 +74,75 @@ def record_inside_temperature(data_points: int = 10,
             of this port can be found in the Arduino IDE when connected
             to a board.
         pin : str
+            Which pin on the Arduino board should voltage be read from.
 
+        Example
+        ----------
+        >>> pin_connection = connect_to_arduino(port="COM3", pin="a:0:i")
+        >>> pin_connection.read()
+        0.3312
         """
-    # Connects to Arduino and initializes pyfirmata
-    ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )
-    PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)
-    PYFIRMATA_ITERATOR.start()  
-    analog_input = ARDUINO_BOARD.get_pin( AI['pin'] )   # Points to which analog pin voltages should be read from
+        board = pyfirmata.Arduino(port)
+        pyfirmata_iterator = pyfirmata.util.Iterator(board)
+        pyfirmata_iterator.start()
+
+        return board.get_pin(pin)
     
 
-    # Necessary constants for calculation; resistor resistence and Steinhart-Hart coefficients
-    RESISTOR = AI['resistor_resistence']
-    C1, C2, C3 = AI['coeff_1'], AI['coeff_2'], AI['coeff_3']
-    readings = []
+    def Steinhart_Hart(voltage: Union[float, int],
+                       resistence: Union[float, int],
+                       coefficients: Iterable) -> float:
+        """Return temperature given voltage.
+        
+        Use Steinhart-Hart to compute temperature based on thermistor 
+        reading.  Uses only the first three terms to approximate,
+        therefore requires the first three coefficients.  Returns
+        temperature in Kelvin.
+        
+        Parameters
+        ----------
+        voltage : float, can be int
+            Voltage drop measured across thermistor.
+        resistence : float or int
+            Resistence of the resistor in series with the thermistor.
+        coefficients : Iterable (list, tuple, str) or ndarray
+            Coefficients to be used in the Steinhart-Hart equation, 
+            supplied by the manufacturer of the thermistor.  The first
+            coefficient should be at index 0, followed by the subsequent
+            coefficients at indices 1 and 2. 
+        """
+        C1 = int(coefficients[0])
+        C2 = int(coefficients[1]) 
+        C3 = int(coefficients[2])
+        
+        thermistor_resistence = resistence*(1/voltage - 1)
+        log_thermistor_resistence = math.log(thermistor_resistence)
+
+        temperature = (1/(C1
+                          + C2*log_thermistor_resistence
+                          + C3*(log_thermistor_resistence**3)
+                          )
+                    )
+
+        return temperature
+
+
+    pin_connection = connect_to_arduino(port=AI["port"], pin=AI["pin"])
     
+    readings = np.array([])
     while len(readings) < data_points:
-        voltage_reading = analog_input.read()
-        
-        # If statement to account for first few values read as NoneType
+        voltage_reading = pin_connection.read()
         if type(voltage_reading) == float:
-
-            voltage_reading *= 1023   # Converts pyfirmata analog reading back to arduino analog (0-1 to 0-1023)
-            
-            # Solves for thermistor resistence then takes then log which is needed for Steinhart-Hart
-            thermistor_resistence = RESISTOR * (1023.0 / voltage_reading - 1.0)
-            log_thermistor_resistence = math.log(thermistor_resistence)
-            
-            # Steinhart-Hart and conversion from Kelvin to Fahrenheit
-            T_kelvin = (1.0 / (C1 + C2*log_thermistor_resistence + C3*(log_thermistor_resistence ** 3)))
-            T_celsius = T_kelvin - 273.15
-            T_fahrenheit = (T_celsius * 9.0)/ 5.0 + 32.0
-            
-            readings.append(T_fahrenheit)
-        
-        time.sleep(seconds / data_points)
+            readings.append(voltage_reading)
+            time.sleep(seconds / data_points)
+        else:
+            time.sleep(1)
     
-    average_temperature = int(sum(readings) / len(readings))
+    temperatures = Steinhart_Hart(voltage=readings,
+                                  resistence=AI["resistence"],
+                                  coefficients=AI["coefficients"])
+
+
     
     return average_temperature
 
