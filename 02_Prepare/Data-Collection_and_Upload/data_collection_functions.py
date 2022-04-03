@@ -28,29 +28,46 @@ def get_season():
                 if start <= now <= end)
 
 
-def record_inside_temperature(data_points: int = 10, seconds: Union[int, float] = 10) -> int:
-    """Return temperature based on Arduino readings from thermistor circuit.
+def record_inside_temperature(data_points: int = 10, 
+                                  seconds: Union[int, float] = 10) -> int:
+    """Return temperature based on Arduino readings from thermistor
+    circuit.
     
-    Temperature reported is in Fahrenheit.  Connect to Arduino using pyfirmata 
-    and read voltages across thermistor in thermistor-resistor circuit.  
-    Perform conversions and use Steinhart-Hart equation to determine the
-    temperature at the head of the thermistor.
+    Temperature reported is in Fahrenheit.  Connect to Arduino using
+    pyfirmata and read voltages across thermistor in thermistor-resistor
+    circuit.  Perform conversions and use Steinhart-Hart equation to
+    determine the temperature at the head of the thermistor.
 
     Parameters
     ----------
     data_points : int
-        Specify the number of readings to gather and average over; default 10
-    seconds : int or float
-        Across how many seconds the data points should be evenly spaced across;
+        Specify the number of readings to gather and average over;
         default 10
+    seconds : int or float
+        Across how many seconds the data points should be evenly spaced
+        across; default 10
 
     Example
     ----------
-    The following records 5 datapoints across 10 seconds (2 seconds between
-    recordings) and then averages them, truncating all decimal places.
+    The following records 5 datapoints across 10 seconds (2 seconds
+    between recordings) and then averages them, truncating all decimal
+    places.
     >>> record_inside_temperature(data_points=5, seconds=10)
     70
     """
+    def connect_to_arduino(port, pin):
+        """Connect to Arduino board at specified port and watches
+        specified pin.  
+
+        Parameters
+        ----------
+        port : str
+            The connection port between Arduino and computer.  The name
+            of this port can be found in the Arduino IDE when connected
+            to a board.
+        pin : str
+
+        """
     # Connects to Arduino and initializes pyfirmata
     ARDUINO_BOARD = pyfirmata.Arduino( AI['port'] )
     PYFIRMATA_ITERATOR = pyfirmata.util.Iterator(ARDUINO_BOARD)
@@ -90,13 +107,14 @@ def record_inside_temperature(data_points: int = 10, seconds: Union[int, float] 
 
 
 def get_outside_temperature(site_info: dict) -> str:
-    """Return current temperature as reported by specified weather station.
+    """Return current temperature as reported by specified weather
+    station.
     
     Parameters
     ----------
     site_info : dict
-        Dict containing information about what site to visit and which element 
-        contains temperature reading as text.
+        Dict containing information about what site to visit and which
+        element contains temperature reading as text.
     ```
     example_nyc = {
         "url": "https://www.weather.gov/okx/"

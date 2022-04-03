@@ -7,8 +7,8 @@ import data_collection_functions as dcf
 class Data:
     """Collects data as attributes to insert into MySQL database.  
 
-    This class takes no parameters and data point attributes (stored as class
-    attributes) are gathered upon instantiation.
+    This class takes no parameters and data point attributes (stored as
+    class attributes) are gathered upon instantiation.
     """
     def __init__(self):
         self.time = datetime.now().strftime("%H:%M")
@@ -19,7 +19,8 @@ class Data:
 
     @property
     def data(self) -> dict:
-        """Return dict of instance attribute names (as keys) and their values"""
+        """Return dict of instance attribute names (as keys) and their
+        values"""
         return vars(self)
 
 
@@ -29,8 +30,8 @@ class Data:
         Parameters
         ----------
         db_info : dict
-            Dict must have "host", "user", "password", "database", and "table"
-            keys with proper values as strings.
+            Dict must have "host", "user", "password", "database", and
+            "table" keys with proper values as strings.
         
         Example
         ----------
