@@ -1,6 +1,5 @@
 import time
 import math
-from numpy import average, iterable
 import requests
 from typing import Iterable, Union
 from datetime import date, datetime
@@ -136,13 +135,15 @@ def record_inside_temperature(data_points: int = 10,
         else:
             time.sleep(1)
     
-    temperatures = Steinhart_Hart(voltage=readings,
+    temperatures_K = Steinhart_Hart(voltage=readings,
                                   resistence=AI["resistence"],
                                   coefficients=AI["coefficients"])
 
-    average_temperature = np.mean(temperatures)
+    average_temperature_K = np.mean(temperatures_K)
+
+    average_temperature_F = (average_temperature_K - 273.15)*(9/5) + 32 
     
-    return average_temperature
+    return average_temperature_F
 
 
 def get_outside_temperature(site_info: dict) -> str:
