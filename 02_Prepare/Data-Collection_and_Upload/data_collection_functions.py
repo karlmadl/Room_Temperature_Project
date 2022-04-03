@@ -1,6 +1,6 @@
 import time
 import math
-from numpy import iterable
+from numpy import average, iterable
 import requests
 from typing import Iterable, Union
 from datetime import date, datetime
@@ -59,7 +59,6 @@ def record_inside_temperature(data_points: int = 10,
     70
     """
 
-
     def connect_to_arduino(port: str, pin: str):
         """Return pyfirmata connection object to a pin on Arduino board.
         
@@ -86,8 +85,7 @@ def record_inside_temperature(data_points: int = 10,
         pyfirmata_iterator = pyfirmata.util.Iterator(board)
         pyfirmata_iterator.start()
 
-        return board.get_pin(pin)
-    
+        return board.get_pin(pin)    
 
     def Steinhart_Hart(voltage: Union[float, int],
                        resistence: Union[float, int],
@@ -142,7 +140,7 @@ def record_inside_temperature(data_points: int = 10,
                                   resistence=AI["resistence"],
                                   coefficients=AI["coefficients"])
 
-
+    average_temperature = np.mean(temperatures)
     
     return average_temperature
 
