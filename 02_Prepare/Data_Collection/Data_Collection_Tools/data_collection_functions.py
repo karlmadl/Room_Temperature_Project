@@ -7,10 +7,8 @@ import numpy as np
 from bs4 import BeautifulSoup
 import pyfirmata
 
-from user_info import arduino_info as AI
-
-
-
+# ----------------------------------------------------------------------
+# GET SEASON
 Y = 2000  # Dummy leap year to allow input X-02-29 (leap day)
 seasons = [('winter', (date(Y,  1,  1),  date(Y,  3, 20))),
            ('spring', (date(Y,  3, 21),  date(Y,  6, 20))),
@@ -29,7 +27,11 @@ def get_season():
                 if start <= now <= end)
 
 
-def record_inside_temperature(data_points: int = 10, 
+# ----------------------------------------------------------------------
+# RECORD INSIDE TEMPERATURE
+
+def record_inside_temperature(arduino_info: dict,
+                              data_points: int = 10, 
                               seconds: Union[int, float] = 10) -> int:
     """Return temperature based on Arduino readings from thermistor
     circuit.
@@ -120,10 +122,11 @@ def record_inside_temperature(data_points: int = 10,
                          )
                       )
 
-        return int(temperature)
+        return temperature
 
 
-    pin_connection = connect_to_arduino(port=AI["port"], pin=AI["pin"])
+    pin_connection = connect_to_arduino(port=arduino_info["port"],
+                                        pin=arduino_info["pin"])
     
     readings = np.array([])
     while len(readings) < data_points:
@@ -135,15 +138,18 @@ def record_inside_temperature(data_points: int = 10,
             time.sleep(1)
     
     temperatures_K = Steinhart_Hart(voltage=readings,
-                                  resistence=AI["resistence"],
-                                  coefficients=AI["coefficients"])
+                                  resistence=arduino_info["resistence"],
+                                  coefficients=arduino_info["coefficients"])
 
     average_temperature_K = np.mean(temperatures_K)
 
     average_temperature_F = (average_temperature_K - 273.15)*(9/5) + 32 
     
-    return average_temperature_F
+    return int(average_temperature_F)
 
+
+# ----------------------------------------------------------------------
+# GET OUTSIDE TEMPERATURE
 
 def get_outside_temperature(site_info: dict) -> str:
     """Return current temperature as reported by specified weather

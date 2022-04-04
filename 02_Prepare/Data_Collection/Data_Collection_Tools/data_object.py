@@ -2,21 +2,47 @@ from datetime import datetime, date
 from mysql.connector import connect, Error
 
 import data_collection_functions as dcf
-from user_info import temp_site_info
 
 
 class Data:
     """Collects data as attributes to insert into MySQL database.  
 
-    This class takes no parameters and data point attributes (stored as
-    class attributes) are gathered upon instantiation.
+    Data point attributes (stored as class attributes) are gathered upon
+    instatiation.  Use insert_into_MySQL method with dict containing
+    MySQL database.  Class attribute names will be used as column names
+    for INSERT INTO SQL statement.
+
+    Parameters
+    ----------
+    Arduino_Info : dict
+        Dict containing all necessary information to allow a connection
+        to an Arduino via pyfirmata and other information about the
+        thermistor-resistor circuit connected to the Arduino.
+    ```
+    Arduino_Info = {
+        "port": "",
+        "pin": "",
+        "resistence": 0,
+        "coefficients": [0, 0, 0]
+        }
+    ```
+    Temp_Site_Info : dict
+        Dict containing neccessary information about the website to
+        retrieve current reported outdoor temperature from.
+    ```
+    Temp_Site_Info = {
+        "url": "",
+        "HTML element type": "",
+        "HTML class name": ""
+        }
+    ```
     """
-    def __init__(self):
+    def __init__(self, Arduino_Info: dict, Temp_Site_Info: dict):
         self.time = datetime.now().strftime("%H:%M")
         self.date = date.today()
         self.season = dcf.get_season()
-        self.inside_temperature = dcf.record_inside_temperature()
-        self.outside_temperature = int(dcf.get_outside_temperature(site_info=temp_site_info))
+        self.inside_temperature = dcf.record_inside_temperature(arduino_info=Arduino_Info)
+        self.outside_temperature = int(dcf.get_outside_temperature(site_info=Temp_Site_Info))
 
     @property
     def data(self) -> dict:
