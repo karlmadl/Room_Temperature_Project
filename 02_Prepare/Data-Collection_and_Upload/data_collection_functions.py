@@ -1,5 +1,4 @@
 import time
-import math
 import requests
 from typing import Iterable, Union
 from datetime import date, datetime
@@ -102,26 +101,26 @@ def record_inside_temperature(data_points: int = 10,
             Voltage drop measured across thermistor.
         resistence : float or int
             Resistence of the resistor in series with the thermistor.
-        coefficients : Iterable (list, tuple, str) or ndarray
+        coefficients : Iterable (list, tuple) or ndarray
             Coefficients to be used in the Steinhart-Hart equation, 
             supplied by the manufacturer of the thermistor.  The first
             coefficient should be at index 0, followed by the subsequent
             coefficients at indices 1 and 2. 
         """
-        C1 = int(coefficients[0])
-        C2 = int(coefficients[1]) 
-        C3 = int(coefficients[2])
+        C1 = coefficients[0]
+        C2 = coefficients[1] 
+        C3 = coefficients[2]
         
         thermistor_resistence = resistence*(1/voltage - 1)
-        log_thermistor_resistence = math.log(thermistor_resistence)
+        log_thermistor_resistence = np.log(thermistor_resistence)
 
         temperature = (1/(C1
                           + C2*log_thermistor_resistence
                           + C3*(log_thermistor_resistence**3)
-                          )
-                    )
+                         )
+                      )
 
-        return temperature
+        return int(temperature)
 
 
     pin_connection = connect_to_arduino(port=AI["port"], pin=AI["pin"])
@@ -130,7 +129,7 @@ def record_inside_temperature(data_points: int = 10,
     while len(readings) < data_points:
         voltage_reading = pin_connection.read()
         if type(voltage_reading) == float:
-            readings.append(voltage_reading)
+            readings = np.append(readings, voltage_reading)
             time.sleep(seconds / data_points)
         else:
             time.sleep(1)

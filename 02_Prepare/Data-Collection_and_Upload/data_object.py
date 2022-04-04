@@ -2,6 +2,7 @@ from datetime import datetime, date
 from mysql.connector import connect, Error
 
 import data_collection_functions as dcf
+from user_info import temp_site_info
 
 
 class Data:
@@ -15,7 +16,7 @@ class Data:
         self.date = date.today()
         self.season = dcf.get_season()
         self.inside_temperature = dcf.record_inside_temperature()
-        self.outside_temperature = int(dcf.get_outside_temperature())
+        self.outside_temperature = int(dcf.get_outside_temperature(site_info=temp_site_info))
 
     @property
     def data(self) -> dict:
