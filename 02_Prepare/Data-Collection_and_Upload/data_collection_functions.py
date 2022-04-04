@@ -6,7 +6,6 @@ from datetime import date, datetime
 
 import numpy as np
 from bs4 import BeautifulSoup
-from pandas import DataFrame
 import pyfirmata
 
 from user_info import arduino_info as AI
@@ -20,8 +19,9 @@ seasons = [('winter', (date(Y,  1,  1),  date(Y,  3, 20))),
            ('autumn', (date(Y,  9, 23),  date(Y, 12, 20))),
            ('winter', (date(Y, 12, 21),  date(Y, 12, 31)))]
 
-# Returns the season based on current date, based on northern hemisphere
+
 def get_season():
+    """Return current nothern hemisphere season"""
     now = date.today()
     if isinstance(now, datetime):
         now = now.date()
