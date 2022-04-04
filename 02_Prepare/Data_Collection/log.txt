@@ -1628,3 +1628,8 @@ Message: stale element reference: element is not attached to the page document
 ----------------------------------------------------
 
 2021-08-31 | 20:00 | Operation ran successfully
+
+----------------------------------------------------
+
+2022-04-03 | 23:25 | Operation ran unsuccessfully
+could not open port '': FileNotFoundError(2, 'The system cannot find the path specified.', None, 3)

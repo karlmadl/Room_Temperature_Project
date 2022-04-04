@@ -1,7 +1,7 @@
 from datetime import datetime, date   
 from mysql.connector import connect, Error
 
-import data_collection_functions as dcf
+from . import data_collection_functions as dcf
 
 
 class Data:

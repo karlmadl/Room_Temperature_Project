@@ -4,7 +4,7 @@ from Data_Collection_Tools.data_object import Data
 import user_info as info
 
 
-Log = "02_Prepare/Data-Collection_and_Upload/log.txt"
+Log = "02_Prepare/Data_Collection/log.txt"
 
 with open(Log, 'a') as log:
     log.write("\n"
