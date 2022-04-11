@@ -4,9 +4,9 @@ from Data_Collection_Tools.data_object import Data
 import user_info as info
 
 
-Log = "02_Prepare/Data_Collection/log.txt"
+Log = "log.txt"
 
-with open(Log, 'a') as log:
+with open(Log, "a") as log:
     log.write("\n"
               + "----------------------------------------------------"
               + "\n\n"
@@ -19,6 +19,7 @@ with open(Log, 'a') as log:
     try: 
         observation = Data(Arduino_Info=info.Arduino_Circuit,
                            Temp_Site_Info=info.Temperature_Site_Info)
+
         observation.insert_into_MySQL(info.MySQL_credentials)
         log.write("successfully" + "\n")
 
