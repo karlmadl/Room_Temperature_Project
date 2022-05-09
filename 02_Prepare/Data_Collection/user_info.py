@@ -2,9 +2,11 @@ Arduino_Circuit = {
     "port": "",          # arduino-computer connection port
     "pin": "",           # pin on arduino that reads voltage across thermistor
     "resistence": 0,     # resistence of resistor in thermistor-resistor circuit
-    "coefficients": [0,  # Steinhart-Hart coefficients for thermistor
-                     0,
-                     0]
+    "coefficients": [    # Steinhart-Hart coefficients for thermistor
+        0,
+        0,
+        0
+    ]
 }
 
 MySQL_credentials = {
